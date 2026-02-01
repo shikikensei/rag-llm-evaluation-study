@@ -1,0 +1,59 @@
+RAGASによるRAGシステム評価を実行中...
+---
+ Container ollama  Running
+ Container weaviate  Running
+RAGASによるRAGシステム評価
+
+✓ テストセットをロード: 3件
+
+/usr/local/lib/python3.12/site-packages/weaviate/warnings.py:133: DeprecationWarning: Dep005: You are using weaviate-client version 4.9.4. The latest version is 4.19.2.
+            Consider upgrading to the latest version. See https://weaviate.io/developers/weaviate/client-libraries/python for details.
+  warnings.warn(
+RAG評価を実行中...
+
+Processing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:06
+
+RAGAS評価指標を計算中...
+Evaluating:   0%|          | 0/12 [00:00<?, ?it/s]/usr/local/lib/python3.12/site-packages/ragas/metrics/base.py:496: DeprecationWarning: The function _single_turn_ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextRecall instead.
+  self._single_turn_ascore(sample=sample, callbacks=group_cm),
+/usr/local/lib/python3.12/site-packages/ragas/metrics/_context_recall.py:171: DeprecationWarning: The function _ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextRecall instead.
+  return await self._ascore(row, callbacks)
+/usr/local/lib/python3.12/site-packages/ragas/metrics/_context_precision.py:140: DeprecationWarning: The function _ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextPrecisionWithReference instead.
+  return await self._ascore(row, callbacks)
+/usr/local/lib/python3.12/site-packages/ragas/metrics/base.py:496: DeprecationWarning: The function _single_turn_ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextRecall instead.
+  self._single_turn_ascore(sample=sample, callbacks=group_cm),
+/usr/local/lib/python3.12/site-packages/ragas/metrics/_context_recall.py:171: DeprecationWarning: The function _ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextRecall instead.
+  return await self._ascore(row, callbacks)
+/usr/local/lib/python3.12/site-packages/ragas/metrics/_context_precision.py:140: DeprecationWarning: The function _ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextPrecisionWithReference instead.
+  return await self._ascore(row, callbacks)
+/usr/local/lib/python3.12/site-packages/ragas/metrics/base.py:496: DeprecationWarning: The function _single_turn_ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextRecall instead.
+  self._single_turn_ascore(sample=sample, callbacks=group_cm),
+/usr/local/lib/python3.12/site-packages/ragas/metrics/_context_recall.py:171: DeprecationWarning: The function _ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextRecall instead.
+  return await self._ascore(row, callbacks)
+/usr/local/lib/python3.12/site-packages/ragas/metrics/_context_precision.py:140: DeprecationWarning: The function _ascore was deprecated in 0.2, and will be removed in the 0.3 release. Use LLMContextPrecisionWithReference instead.
+  return await self._ascore(row, callbacks)
+Evaluating:   8%|▊         | 1/12 [00:02<00:27,  2.48s/it]Evaluating:  17%|█▋        | 2/12 [00:05<00:26,  2.67s/it]Evaluating:  25%|██▌       | 3/12 [00:06<00:18,  2.08s/it]Evaluating:  33%|███▎      | 4/12 [00:10<00:21,  2.66s/it]Evaluating:  42%|████▏     | 5/12 [00:11<00:14,  2.09s/it]Evaluating:  50%|█████     | 6/12 [00:12<00:10,  1.74s/it]Evaluating:  58%|█████▊    | 7/12 [00:12<00:06,  1.33s/it]Evaluating:  67%|██████▋   | 8/12 [00:13<00:04,  1.12s/it]Evaluating:  75%|███████▌  | 9/12 [00:14<00:02,  1.02it/s]Evaluating:  83%|████████▎ | 10/12 [00:15<00:01,  1.02it/s]Evaluating:  92%|█████████▏| 11/12 [00:15<00:00,  1.37it/s]Evaluating: 100%|██████████| 12/12 [00:15<00:00,  1.78it/s]Evaluating: 100%|██████████| 12/12 [00:15<00:00,  1.29s/it]
+
+====== 評価結果 ======
+
+Traceback (most recent call last):
+  File "/app/scripts/evaluate.py", line 265, in <module>
+    main()
+  File "/app/scripts/evaluate.py", line 256, in main
+    display_results(result)
+  File "/app/scripts/evaluate.py", line 207, in display_results
+    for metric_name, score in result.items():
+                              ^^^^^^^^^^^^
+AttributeError: 'EvaluationResult' object has no attribute 'items'
+sys:1: ResourceWarning: unclosed <socket.socket fd=14, family=2, type=1, proto=6, laddr=('172.22.0.4', 52682), raddr=('172.22.0.3', 11434)>
+sys:1: ResourceWarning: unclosed <socket.socket fd=26, family=2, type=1, proto=6, laddr=('172.22.0.4', 57790), raddr=('172.22.0.3', 11434)>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=24 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=23 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=21 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=22 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=20 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=19 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=17 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=16 read=idle write=<idle, bufsize=0>>
+/usr/local/lib/python3.12/asyncio/selector_events.py:879: ResourceWarning: unclosed transport <_SelectorSocketTransport fd=18 read=idle write=<idle, bufsize=0>>
+

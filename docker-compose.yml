@@ -1,0 +1,115 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+
+    # Ollama の API（ホストからも叩けるようにしておくと確認が楽）
+    ports:
+      - "11434:11434"
+
+    # モデル保存場所（永続化：コンテナを作り直してもモデルを残す）
+    volumes:
+      - ./volumes/ollama:/root/.ollama
+      - ./models:/models
+
+    # GPUを使う（openwebui と同じ指定の仕方に合わせる）
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    restart: unless-stopped
+
+    # Weaviateとの通信用ネットワーク
+    networks:
+      - rag-network
+
+  weaviate:
+    image: cr.weaviate.io/semitechnologies/weaviate:1.28.1
+    container_name: weaviate
+
+    ports:
+      - "8080:8080"      # HTTP API
+      - "50051:50051"    # gRPC
+
+    volumes:
+      - ./volumes/weaviate:/var/lib/weaviate
+
+    environment:
+      # 基本設定
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+
+      # Ollamaモジュール有効化
+      ENABLE_MODULES: 'text2vec-ollama,generative-ollama'
+
+      # Ollama API エンドポイント（コンテナ名で指定）
+      OLLAMA_API_ENDPOINT: 'http://ollama:11434'
+
+      # デフォルトベクトライザー設定
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-ollama'
+
+      # クラスタ設定
+      CLUSTER_HOSTNAME: 'node1'
+
+    depends_on:
+      - ollama
+
+    restart: unless-stopped
+
+    networks:
+      - rag-network
+
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-app
+
+    volumes:
+      - ./scripts:/app/scripts
+      - ./data:/app/data
+      - ./evaluation:/app/evaluation
+      - ./.env:/app/.env
+
+    environment:
+      # Ollama設定（コンテナ名で接続）
+      OLLAMA_API_URL: http://ollama:11434
+      OLLAMA_EMBEDDING_MODEL: mxbai-embed-large
+      OLLAMA_LLM_MODEL: elyza-jp-8b
+
+      # Weaviate設定（コンテナ名で接続）
+      WEAVIATE_URL: http://weaviate:8080
+      WEAVIATE_COLLECTION_NAME: PDFDocuments
+
+      # RAG設定
+      CHUNK_SIZE: 500
+      CHUNK_OVERLAP: 50
+      TOP_K_RESULTS: 5
+
+    depends_on:
+      - ollama
+      - weaviate
+
+    networks:
+      - rag-network
+
+    # 常時起動させず、コマンド実行時のみ起動
+    profiles:
+      - tools
+
+    stdin_open: true
+    tty: true
+
+networks:
+  rag-network:
+    driver: bridge
+
+volumes:
+  ollama:
+  weaviate:
+

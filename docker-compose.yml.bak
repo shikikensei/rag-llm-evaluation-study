@@ -1,0 +1,40 @@
+services:
+  # 1つ目のサービス（コンテナ）定義：Open WebUI 本体
+  openwebui:
+    # 起動するDockerイメージ（公式の配布先）
+    #image: ghcr.io/open-webui/open-webui:main
+    #cudaを使う
+    image: ghcr.io/open-webui/open-webui:cuda
+
+    # コンテナ名（docker ps で見たとき分かりやすい）
+    # docker run の "--name open-webui" に相当
+    container_name: open-webui
+
+    # ポートマッピング
+    # 左側(3000)：ローカルホストのポート
+    # 右側(8080)：コンテナ内のOpen WebUIが待ち受けるポート
+    # → ブラウザで http://localhost:3000 を開けるようになる
+    # docker run の "-p 3000:8080" に相当
+    ports:
+      - "3000:8080"
+
+    # データの永続化
+    # コンテナを消しても、設定やチャット履歴などを残すための保存場所
+    # docker run の "-v open-webui:/app/backend/data" に相当
+    volumes:
+      - ./volumes:/app/backend/data
+
+
+    environment:
+      - WEBUI_AUTH=False     # -e WEBUI_AUTH=False（ログイン無効化）
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+
+
