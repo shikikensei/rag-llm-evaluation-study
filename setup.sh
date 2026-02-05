@@ -29,18 +29,18 @@ sleep 10
 # Step 2: 必要なモデルをダウンロード
 echo ""
 echo "[2/3] 必要なモデルをダウンロード中..."
-echo "  - Embeddingモデル: mxbai-embed-large (669MB)"
+echo "  - Embeddingモデル: kun432/cl-nagoya-ruri-large"
 echo "  - LLMモデル: dsasai/llama3-elyza-jp-8b (4.9GB)"
 echo ""
 echo "※ 初回は数分〜10分程度かかります"
 echo ""
 
 # Embeddingモデル
-if docker compose exec ollama ollama list | grep -q "mxbai-embed-large"; then
-    echo "✓ mxbai-embed-large は既にインストール済み"
+if docker compose exec ollama ollama list | grep -q "kun432/cl-nagoya-ruri-large"; then
+    echo "✓ kun432/cl-nagoya-ruri-large は既にインストール済み"
 else
-    echo "→ mxbai-embed-large をダウンロード中..."
-    docker compose exec ollama ollama pull mxbai-embed-large
+    echo "→ kun432/cl-nagoya-ruri-large をダウンロード中..."
+    docker compose exec ollama ollama pull kun432/cl-nagoya-ruri-large
 fi
 
 # LLMモデル

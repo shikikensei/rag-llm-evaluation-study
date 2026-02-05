@@ -71,7 +71,7 @@ def generate_testset_from_documents() -> List[Dict]:
         {
             "source": "data/documents/sample.txt",
             "question": "このRAGシステムの技術スタックを教えてください",
-            "ground_truth": "Ollama（LLM推論エンジン）、Weaviate（ベクトルデータベース）、ELYZA-JP-8B（日本語特化LLMモデル）、mxbai-embed-large（多言語Embeddingモデル）を使用しています。"
+            "ground_truth": "Ollama（LLM推論エンジン）、Weaviate（ベクトルデータベース）、ELYZA-JP-8B（日本語特化LLMモデル）、kun432/cl-nagoya-ruri-large（日本語Embeddingモデル）を使用しています。"
         }
     ]
 

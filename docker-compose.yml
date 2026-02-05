@@ -79,7 +79,7 @@ services:
     environment:
       # Ollama設定（コンテナ名で接続）
       OLLAMA_API_URL: http://ollama:11434
-      OLLAMA_EMBEDDING_MODEL: mxbai-embed-large
+      OLLAMA_EMBEDDING_MODEL: kun432/cl-nagoya-ruri-large
       OLLAMA_LLM_MODEL: dsasai/llama3-elyza-jp-8b
 
       # Weaviate設定（コンテナ名で接続）

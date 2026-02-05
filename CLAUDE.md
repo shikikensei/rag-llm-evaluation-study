@@ -16,7 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - GPU（NVIDIA）を使用してモデルを実行
   - モデルデータは `./volumes/ollama` にバインドマウントされ永続化される
   - LLMモデル: ELYZA-JP-8B（日本語特化）
-  - Embeddingモデル: mxbai-embed-large（多言語対応）
+  - Embeddingモデル: kun432/cl-nagoya-ruri-large（日本語特化）
 
 - **weaviate サービス**: ベクトルデータベース（ポート8080で公開）
   - ドキュメントのベクトル検索を提供

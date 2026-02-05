@@ -75,7 +75,7 @@
 
 | コンポーネント | 役割 | 詳細 |
 |--------------|------|-----|
-| **Ollama** | LLM推論エンジン | ELYZA-JP-8B で日本語回答生成<br>mxbai-embed-large でベクトル化 |
+| **Ollama** | LLM推論エンジン | ELYZA-JP-8B で日本語回答生成<br>kun432/cl-nagoya-ruri-large でベクトル化 |
 | **Weaviate** | ベクトルデータベース | HNSW インデックスで高速検索<br>LSM Tree でデータ永続化 |
 | **Python App** | RAG処理 | ドキュメント読込・検索・評価 |
 
@@ -193,7 +193,7 @@ done
 2. **テキスト抽出**: PDFの場合はテキスト抽出
 3. **クリーニング**: 余分な空白や改行を整理
 4. **チャンク化**: 500文字ごとに分割（50文字オーバーラップ）
-5. **Embedding化**: Ollama (mxbai-embed-large) でベクトル化
+5. **Embedding化**: Ollama (kun432/cl-nagoya-ruri-large) でベクトル化
 6. **保存**: Weaviate に保存（既存データは自動削除）
 
 #### 出力例
@@ -446,7 +446,7 @@ client.close()
 
 # Ollama設定
 OLLAMA_API_URL=http://ollama:11434
-OLLAMA_EMBEDDING_MODEL=mxbai-embed-large  # 変更可能
+OLLAMA_EMBEDDING_MODEL=kun432/cl-nagoya-ruri-large  # 変更可能
 OLLAMA_LLM_MODEL=elyza-jp-8b
 
 # Weaviate設定
@@ -551,7 +551,7 @@ docker compose ps ollama
 docker compose exec ollama ollama list
 
 # 必要なモデルがない場合
-docker compose exec ollama ollama pull mxbai-embed-large
+docker compose exec ollama ollama pull kun432/cl-nagoya-ruri-large
 docker compose exec ollama ollama create elyza-jp-8b -f /models/elyza/Modelfile
 ```
 
@@ -648,7 +648,7 @@ docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 
 ### Q7. 英語のドキュメントも使えますか？
 
-**A:** はい。mxbai-embed-largeは多言語対応で、ELYZA-JP-8Bも英語に対応しています。
+**A:** はい。kun432/cl-nagoya-ruri-largeは多言語対応で、ELYZA-JP-8Bも英語に対応しています。
 
 ### Q8. PDFの画像やグラフは検索できますか？
 
@@ -704,7 +704,7 @@ docker compose logs -f python-app
 ### モデルサイズ
 
 - **ELYZA-JP-8B**: 約4.6GB
-- **mxbai-embed-large**: 約669MB
+- **kun432/cl-nagoya-ruri-large**: 約669MB
 - **Weaviateデータ**: ドキュメント量に依存（1ドキュメント約100-200KB）
 
 ---
@@ -777,7 +777,7 @@ docker compose logs -f python-app
 - **Weaviate**: https://weaviate.io/
 - **RAGAS**: https://github.com/explodinggradients/ragas
 - **ELYZA-JP-8B**: https://huggingface.co/elyza/Llama-3-ELYZA-JP-8B
-- **mxbai-embed-large**: https://ollama.com/library/mxbai-embed-large
+- **kun432/cl-nagoya-ruri-large**: https://ollama.com/library/kun432/cl-nagoya-ruri-large
 
 ### ライセンス
 
@@ -785,7 +785,7 @@ docker compose logs -f python-app
 - **Ollama**: MIT License
 - **Weaviate**: BSD 3-Clause License
 - **ELYZA-JP-8B**: Apache 2.0 License
-- **mxbai-embed-large**: Apache 2.0 License
+- **kun432/cl-nagoya-ruri-large**: Apache 2.0 License
 - **RAGAS**: Apache 2.0 License
 
 ---
