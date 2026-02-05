@@ -8,6 +8,16 @@ echo "  RAGシステム セットアップ開始"
 echo "========================================="
 echo ""
 
+# Step 0: 必要なディレクトリを作成
+echo "[0/3] 必要なディレクトリを作成中..."
+mkdir -p models/elyza
+mkdir -p data/documents
+mkdir -p volumes/ollama
+mkdir -p volumes/weaviate
+mkdir -p evaluation
+echo "✓ ディレクトリ作成完了"
+echo ""
+
 # Step 1: Docker環境起動
 echo "[1/3] Dockerコンテナを起動中..."
 docker compose up -d ollama weaviate
