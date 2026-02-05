@@ -9,7 +9,7 @@ class Config:
     # Ollama設定
     OLLAMA_API_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434")
     OLLAMA_EMBEDDING_MODEL = os.getenv("OLLAMA_EMBEDDING_MODEL", "mxbai-embed-large")
-    OLLAMA_LLM_MODEL = os.getenv("OLLAMA_LLM_MODEL", "elyza-jp-8b")
+    OLLAMA_LLM_MODEL = os.getenv("OLLAMA_LLM_MODEL", "dsasai/llama3-elyza-jp-8b")
 
     # Weaviate設定
     WEAVIATE_URL = os.getenv("WEAVIATE_URL", "http://localhost:8080")

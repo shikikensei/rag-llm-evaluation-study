@@ -80,7 +80,7 @@ services:
       # Ollama設定（コンテナ名で接続）
       OLLAMA_API_URL: http://ollama:11434
       OLLAMA_EMBEDDING_MODEL: mxbai-embed-large
-      OLLAMA_LLM_MODEL: elyza-jp-8b
+      OLLAMA_LLM_MODEL: dsasai/llama3-elyza-jp-8b
 
       # Weaviate設定（コンテナ名で接続）
       WEAVIATE_URL: http://weaviate:8080
