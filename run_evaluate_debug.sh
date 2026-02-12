@@ -14,5 +14,5 @@ fi
 
 # python-appコンテナを一時起動してデバッグ評価実行
 docker compose run --rm \
-    -e OLLAMA_LLM_MODEL="${OLLAMA_LLM_MODEL:-elyza-jp-8b}" \
+    -e OLLAMA_LLM_MODEL="${OLLAMA_LLM_MODEL:-dsasai/llama3-elyza-jp-8b}" \
     python-app python scripts/evaluate_debug.py
