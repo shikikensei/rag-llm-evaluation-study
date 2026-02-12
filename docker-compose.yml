@@ -91,6 +91,10 @@ services:
       CHUNK_OVERLAP: 50
       TOP_K_RESULTS: 5
 
+      # ハイブリッド検索設定
+      SEARCH_MODE: hybrid  # "hybrid", "vector", "bm25"
+      HYBRID_ALPHA: 0.5    # 0.0=BM25のみ, 1.0=ベクトルのみ
+
     depends_on:
       - ollama
       - weaviate

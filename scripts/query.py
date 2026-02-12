@@ -1,4 +1,5 @@
 import weaviate
+import requests
 from rich.console import Console
 from rich.panel import Panel
 from config import Config
@@ -7,7 +8,7 @@ console = Console()
 
 
 class RAGQuery:
-    """RAG検索・質問応答を行うクラス"""
+    """RAG検索・質問応答を行うクラス（検索と生成を分離）"""
 
     def __init__(self):
         """Weaviateクライアントを初期化"""
@@ -60,6 +61,7 @@ class RAGQuery:
     def generate_answer(self, query: str, top_k: int = None):
         """
         RAG生成（検索 + LLM生成）を実行
+        検索と生成を分離して、Ollama APIを直接呼び出す
 
         Args:
             query: 質問
@@ -71,32 +73,50 @@ class RAGQuery:
         if top_k is None:
             top_k = Config.TOP_K_RESULTS
 
-        collection = self.client.collections.get(self.collection_name)
+        # 1. ベクトル検索で関連ドキュメントを取得
+        search_results = self.search(query, top_k)
 
-        # Weaviateの生成機能を使用
-        response = collection.generate.near_text(
-            query=query,
-            limit=top_k,
-            single_prompt="""あなたは親切なアシスタントです。以下のコンテキストを使用して質問に答えてください。
+        if not search_results:
+            return []
 
-コンテキスト: {content}
+        # 2. コンテキストを構築
+        context = "\n\n".join([result["content"] for result in search_results])
 
-質問: """ + query + """
+        # 3. プロンプト作成
+        prompt = f"""あなたは親切なアシスタントです。以下のコンテキストを使用して質問に答えてください。
+
+コンテキスト: {context}
+
+質問: {query}
 
 回答:"""
-        )
 
-        # 検索結果
-        search_results = []
-        for obj in response.objects:
-            search_results.append({
-                "content": obj.properties["content"],
-                "source": obj.properties["source"],
-                "page": obj.properties["page"],
-                "generated": obj.generated
-            })
+        # 4. Ollama APIで直接生成
+        try:
+            ollama_response = requests.post(
+                f"{Config.OLLAMA_API_URL}/api/generate",
+                json={
+                    "model": Config.OLLAMA_LLM_MODEL,
+                    "prompt": prompt,
+                    "stream": False
+                },
+                timeout=120
+            )
 
-        return search_results
+            if ollama_response.status_code == 200:
+                generated_text = ollama_response.json().get("response", "")
+            else:
+                generated_text = f"エラー: 回答を生成できませんでした（ステータス: {ollama_response.status_code}）"
+        except Exception as e:
+            generated_text = f"エラー: {str(e)}"
+
+        # 5. 結果を返す
+        return [{
+            "content": search_results[0]["content"],
+            "source": search_results[0]["source"],
+            "page": search_results[0]["page"],
+            "generated": generated_text
+        }]
 
     def close(self):
         """Weaviate接続をクローズ"""

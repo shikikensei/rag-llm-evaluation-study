@@ -19,3 +19,7 @@ class Config:
     CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "500"))
     CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "50"))
     TOP_K_RESULTS = int(os.getenv("TOP_K_RESULTS", "5"))
+
+    # 検索設定
+    SEARCH_MODE = os.getenv("SEARCH_MODE", "hybrid")  # "hybrid", "vector", "keyword"
+    HYBRID_ALPHA = float(os.getenv("HYBRID_ALPHA", "0.5"))  # 0.0=BM25のみ, 1.0=ベクトルのみ
